@@ -1,43 +1,44 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-struct task
+void selector(int input, FILE **writeList)
 {
-    char name[30];
-    bool complete;
-};
+    char taskName[30];
+    switch (input)
+    {
+    case 1:
+        printf("Enter new task name: ");
+        scanf("%s", taskName);
+        fprintf(*writeList, "%s\n", taskName);
+        break;
+    }
+}
 
 int main()
 {
     int input;
-    bool validInput = true;
     char temp;
 
-    printf("Welcome to to-do-list SKELETON v1\n\n");
+    FILE *writeList = fopen("TDL.txt", "a");
 
-    printf("Enter 1 to add a task\nEnter 2 edit task completion\nEnter 3 to view all tasks\nEnter 4 to exit to-do-list\n\n>>");
+    printf("=======================\nTo-do-list v0.1\n=======================\n\n");
 
-    while (scanf("%d%c", &input, &temp) != 2 && temp != '\n' && (input != 1 || input != 2 || input != 3 || input != 4))
+    bool validInput = false;
+    do
     {
-        printf("Invalid input\n");
-    }
+        printf("Enter 1 to add a task\n>>");
 
-    switch (input)
-    {
-    case 1:
-        break;
-    case 2:
+        if (scanf("%d%c", &input, &temp) != 2 && temp != '\n' && (input != 1))
+        {
+            printf("Invalid input; Try again\n");
+        }
+        else
+            break;
+    } while (validInput == false);
 
-        break;
-    case 3:
+    selector(input, &writeList);
 
-        break;
-    case 4:
-
-        return 0;
-    default:
-        printf("Invalid input");
-    }
+    fclose(writeList);
 
     return 0;
 }
