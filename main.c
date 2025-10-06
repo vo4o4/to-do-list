@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void selector(int input, FILE **writeList)
+void selector(int input, FILE **writeList, bool *exit)
 {
     char taskName[30];
     switch (input)
@@ -11,6 +11,9 @@ void selector(int input, FILE **writeList)
         scanf("%s", taskName);
         fprintf(*writeList, "%s\n", taskName);
         break;
+    case 2:
+        *exit = true;
+        printf("Exiting...\n");
     }
 }
 
@@ -26,17 +29,15 @@ int main()
     bool validInput = false;
     do
     {
-        printf("Enter 1 to add a task\n>>");
+        printf("Enter 1 to add a task\nEnter 2 to exit\n\n>>");
 
-        if (scanf("%d%c", &input, &temp) != 2 && temp != '\n' && (input != 1))
+        if (scanf("%d%c", &input, &temp) != 2 && temp != '\n' && (input != 1 || input != 2))
         {
             printf("Invalid input; Try again\n");
         }
         else
-            break;
+            selector(input, &writeList, &validInput);
     } while (validInput == false);
-
-    selector(input, &writeList);
 
     fclose(writeList);
 
